@@ -2,7 +2,7 @@
 __author__ = 'Joynice'
 
 import requests
-from JobData.utils import get_header
+from utils.utils import get_header
 import os
 from lxml import etree
 import queue

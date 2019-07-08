@@ -1,6 +1,6 @@
 # encoding: utf-8
 __author__ = 'Joynice'
-from JobData.utils import get_header
+from utils.utils import get_header, get_time
 import requests
 import queue
 from lxml import etree
@@ -17,7 +17,7 @@ class QCWY(object):
     传出：csv文件
     '''
 
-    def __init__(self, keyword, city='北京', thread=10, path='.\\'):
+    def __init__(self, keyword, city='北京', thread=10, path='..\\save-data'):
         self.keyword = keyword
         self.city = city
         self.thread = thread
@@ -88,7 +88,7 @@ class QCWY(object):
             t.join()
         if os.path.exists(self.path):
             data_list = []
-            self.path = os.path.join(self.path, '招聘信息')
+            self.path = os.path.join(self.path, '招聘信息_{}'.format(get_time()))
             while not self.jobqueue.empty():
                 data_list.append(self.jobqueue.get())
             with open(os.path.join(self.path, '前途无忧招聘_关键词_{}_城市_{}.csv'.format(self.keyword, self.city)), 'w',
@@ -99,4 +99,4 @@ class QCWY(object):
 
 
 if __name__ == '__main__':
-    a = QCWY(keyword='java', city='徐州').run()
+    a = QCWY(keyword='java', city='北京').run()
