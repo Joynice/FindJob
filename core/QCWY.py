@@ -17,7 +17,7 @@ class QCWY(object):
     传出：csv文件
     '''
 
-    def __init__(self, keyword, city='北京', thread=10, path='..\\save-data'):
+    def __init__(self, keyword, city='北京', thread=10, path=os.getcwd()):
         self.keyword = keyword
         self.city = city
         self.thread = thread
@@ -88,7 +88,7 @@ class QCWY(object):
             t.join()
         if os.path.exists(self.path):
             data_list = []
-            self.path = os.path.join(self.path, '招聘信息_{}'.format(get_time()))
+            self.path = os.path.join(self.path,'save-data')
             while not self.jobqueue.empty():
                 data_list.append(self.jobqueue.get())
             with open(os.path.join(self.path, '前途无忧招聘_关键词_{}_城市_{}.csv'.format(self.keyword, self.city)), 'w',

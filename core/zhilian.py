@@ -15,7 +15,7 @@ class ZhiLian(object):
     传入：搜索职业关键字、招聘地点
     调用run方法：返回csv文件
     '''
-    def __init__(self, keyword, page=100, city='全国', path='.\\'):
+    def __init__(self, keyword, page=100, city='全国', path=os.getcwd()):
         self.keyword = keyword
         self.page = page
         self.base_url = 'https://fe-api.zhaopin.com/c/i/sou'
@@ -76,7 +76,7 @@ class ZhiLian(object):
 
         if os.path.exists(self.path):
             data = self.Spider()
-            self.path = os.path.join(self.path, '招聘信息')
+            self.path = os.path.join(self.path, 'save-data')
             with open(os.path.join(self.path, '智联招聘_关键词_{}_城市_{}.csv'.format(self.keyword, self.city)), 'w',
                       newline='', encoding='gb18030') as f:
                 f_csv = csv.DictWriter(f, self.csv_header)
