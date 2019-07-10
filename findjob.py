@@ -1,12 +1,11 @@
 # -*- coding: UTF-8 -*-
 __author__ = 'Joynice'
 
-import datetime
 import os
 from core.QCWY import QCWY
 from core.boss import Boss
 from core.zhilian import ZhiLian
-from multiprocessing import Process
+from multiprocessing import Pool
 
 if __name__ == '__main__':
     downloadpath = os.path.join(os.getcwd(), 'save-data')
@@ -30,9 +29,11 @@ if __name__ == '__main__':
             elif web == '3':
                 ZhiLian(city=city, keyword=keyword).run()
             elif web == '4':
-                qcwy = Process(target=QCWY(city=city, keyword=keyword).run)
-                zhilian = Process(target=ZhiLian(city=city, keyword=keyword).run)
-                boss = Process(target=Boss(city=city, keyword=keyword).run)
-                qcwy.start()
-                # zhilian.start()
-                # boss.start()
+                pool = Pool(processes=3)
+                pool.apply_async([QCWY(city=city, keyword=keyword).run(), Boss(city=city, keyword=keyword).run(), ZhiLian(city=city, keyword=keyword).run()])
+                pool.close()
+                pool.join()
+            print('数据爬取完成，请进入save-data文件夹中取出文件')
+    else:
+        print('没有找到save-data文件夹！请创建后重新启动！')
+

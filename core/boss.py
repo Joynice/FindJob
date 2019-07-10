@@ -1,13 +1,16 @@
 # -*- coding: UTF-8 -*-
 __author__ = 'Joynice'
 
-import requests
-from utils.utils import get_header
-import os
-from lxml import etree
-import queue
 import csv
-import time
+import os
+import queue
+
+import requests
+from lxml import etree
+
+from utils.utils import get_header
+
+
 class Boss(object):
     '''
     Boss直聘
@@ -57,7 +60,10 @@ class Boss(object):
                     try: size = html.xpath('//*[@id="main"]/div/div[3]/ul/li[{}]/div/div[2]/div/p/text()[3]'.format(i))[0]
                     except: size = '无'
                     who = html.xpath('//*[@id="main"]/div/div[3]/ul/li[{}]/div/div[3]/h3/text()[1]'.format(i))[0]
-                    job = html.xpath('//*[@id="main"]/div/div[3]/ul/li[1]/div/div[3]/h3/text()[2]'.format(i))[0]
+                    try:
+                        job = html.xpath('//*[@id="main"]/div/div[3]/ul/li[1]/div/div[3]/h3/text()[2]'.format(i))[0]
+                    except:
+                        job = '无'
                     Hr = '{}/{}'.format(who, job)
                     data = {}
                     data.update(职位名称=title,公司名称=name,工作地点=area,薪资=salery,工作经验=exp,学历要求=study,所属领域=belong,公司状态=status,公司规模=size,发布人=Hr)
@@ -74,11 +80,15 @@ class Boss(object):
                         study = data1[2]
                         belong = html.xpath('//*[@id="main"]/div/div[2]/ul/li[{}]/div/div[2]/div/p/text()[1]'.format(i))[0]
                         status = html.xpath('//*[@id="main"]/div/div[2]/ul/li[{}]/div/div[2]/div/p/text()[2]'.format(i))[0]
-                        try: size = html.xpath('//*[@id="main"]/div/div[2]/ul/li[{}]/div/div[2]/div/p/text()[3]'.format(i))[
-                                0]
+                        try:
+                            size = \
+                            html.xpath('//*[@id="main"]/div/div[2]/ul/li[{}]/div/div[2]/div/p/text()[3]'.format(i))[0]
                         except: size = '无'
                         who = html.xpath('//*[@id="main"]/div/div[2]/ul/li[{}]/div/div[3]/h3/text()[1]'.format(i))[0]
-                        job = html.xpath('//*[@id="main"]/div/div[2]/ul/li[1]/div/div[3]/h3/text()[2]'.format(i))[0]
+                        try:
+                            job = html.xpath('//*[@id="main"]/div/div[2]/ul/li[1]/div/div[3]/h3/text()[2]'.format(i))[0]
+                        except:
+                            job = '无'
                         Hr = '{}/{}'.format(who, job)
                         data = {}
                         data.update(职位名称=title, 公司名称=name, 工作地点=area, 薪资=salery, 工作经验=exp, 学历要求=study, 所属领域=belong,
@@ -98,12 +108,6 @@ class Boss(object):
                 f_csv = csv.DictWriter(f, self.csv_header)
                 f_csv.writeheader()
                 f_csv.writerows(data)
-
-
-
-
-
-
 
 if __name__ == '__main__':
     a = Boss(keyword='java', city='徐州').run()

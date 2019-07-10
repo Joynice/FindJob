@@ -27,7 +27,6 @@ class ZhiLian(object):
     def Spider(self):
         jobl = []
         for page in range(self.page):
-            print(page)
             params = {
                 "start": 90 * page,
                 "pageSize": 90,
