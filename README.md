@@ -24,7 +24,7 @@ keyword: 搜索关键词（如：java、python、平面设计等等）
 ```text
 pip install requests
 pip install lxml==4.3.0
-python findjob.py
+python findjob.py   
 ```
 ### 数据展示
 
