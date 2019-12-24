@@ -3,7 +3,6 @@ __author__ = 'Joynice'
 
 import csv
 import os
-import queue
 
 import requests
 from lxml import etree

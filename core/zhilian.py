@@ -43,13 +43,11 @@ class ZhiLian(object):
                 "salary": '0, 0'
             }
             req = requests.get(url=self.base_url, params=params, headers=get_header())
-            cookie = req.cookies
-            print(cookie)
             data = req.json()['data']['results']
             if len(data) != 0:
                 for job in data:
-                    # print(job)
                     jobd = {}
+                    print(job.get('jobName'))
                     jobd['ID'] = job.get('number')
                     jobd['工作名称'] = job.get('jobName')
                     jobd['招聘详细链接'] = job.get('positionURL')
@@ -74,7 +72,7 @@ class ZhiLian(object):
                     header['referer'] = job.get('positionURL')
                     header['upgrade-insecure-requests'] = '1'
                     header['cookie'] = config.ZHILIAN_COOKIE
-                    req1 = requests.get(job.get('positionURL'), headers=header, )
+                    req1 = requests.get(job.get('positionURL'), headers=header, verify=False)
                     req1.encoding = 'utf-8'
                     html = etree.HTML(req1.text)
                     detail = ''.join(html.xpath('//*[@class="describtion__detail-content"]//*/text()'))
